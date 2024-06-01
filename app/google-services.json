@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "742030309926",
+    "firebase_url": "https://appsitios-68011-default-rtdb.firebaseio.com",
+    "project_id": "appsitios-68011",
+    "storage_bucket": "appsitios-68011.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:742030309926:android:45e0a1d10a772bc8b584e7",
+        "android_client_info": {
+          "package_name": "com.example.hc21018gp21022"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBcXpbW1o1KeCTpzB20X8vMxl-n5xd-r1o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
