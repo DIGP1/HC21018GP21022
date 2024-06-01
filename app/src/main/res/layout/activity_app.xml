@@ -12,5 +12,6 @@
         android:layout_height="83dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/bottom_nav_menu"
-        tools:layout_editor_absoluteX="-4dp" />
+        tools:layout_editor_absoluteX="-4dp"
+        tools:ignore="MissingConstraints" />
 </androidx.constraintlayout.widget.ConstraintLayout>
