@@ -9,14 +9,5 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="412dp"
-        android:layout_height="644dp">
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:layout_editor_absoluteX="116dp"
-            tools:layout_editor_absoluteY="241dp"
-            tools:src="@tools:sample/avatars" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_height="644dp"/>
 </FrameLayout>

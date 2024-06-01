@@ -13,7 +13,8 @@
         android:theme="@style/Theme.HC21018GP21022"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+
+            android:name=".AppActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
