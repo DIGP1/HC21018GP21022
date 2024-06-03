@@ -24,31 +24,33 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class FavoritosAdapter extends BaseAdapter {
+public class PopularesAdapter extends BaseAdapter {
 
-    private List<String>dataFavoritos;
-    private AppActivity main;
+    private List<DestinosModel>dataPopulares;
     private Context context;
-    private DatabaseReference destinosRef, userRef, userFavRef;
+    private AppActivity main;
+    private DatabaseReference userFavRef,autorRef;
     private String idUser;
 
-    public FavoritosAdapter(List<String> dataFavoritos, AppActivity main, Context context, String idUser) {
-        this.dataFavoritos = dataFavoritos;
-        this.main = main;
+    public PopularesAdapter(List<DestinosModel> dataPopulares, Context context, AppActivity main, String idUser) {
+        this.dataPopulares = dataPopulares;
         this.context = context;
+        this.main = main;
         this.idUser = idUser;
     }
 
     @Override
     public int getCount() {
-        return dataFavoritos.size();
+        return dataPopulares.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return dataFavoritos.get(position);
+        return dataPopulares.get(position);
     }
 
     @Override
@@ -61,7 +63,7 @@ public class FavoritosAdapter extends BaseAdapter {
         ViewHolder viewHolder;
 
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.adapter_favoritos, parent, false);
+            convertView = LayoutInflater.from(context).inflate(R.layout.adapter_populares, parent, false);
             viewHolder = new ViewHolder();
             viewHolder.lblNombre = convertView.findViewById(R.id.lblNombreDestinoPop);
             viewHolder.lblDescripcion = convertView.findViewById(R.id.lblDescripcionDestinoPop);
@@ -75,60 +77,46 @@ public class FavoritosAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        String idDestino = dataFavoritos.get(position);
 
+        DestinosModel destino = dataPopulares.get(position);
         userFavRef = FirebaseDatabase.getInstance().getReference("Users").child(idUser);
-        destinosRef = FirebaseDatabase.getInstance().getReference("Destinos").child(idDestino);
-        destinosRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        autorRef = FirebaseDatabase.getInstance().getReference("Users").child(destino.getIdUser());
+
+        viewHolder.lblNombre.setText(destino.getNombre());
+        viewHolder.lblDescripcion.setText(destino.getDescripcion());
+        viewHolder.lblUbicacion.setText(destino.getUbicacion());
+        viewHolder.lblRating.setText(destino.getRating());
+
+        autorRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
-                    userRef = FirebaseDatabase.getInstance().getReference("Users").child(snapshot.child("idUser").getValue(String.class));
-                    userRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshotUser) {
-                            if(snapshotUser.exists()){
-                                DestinosModel destino = new DestinosModel(snapshot.getKey(),snapshot.child("nombre").getValue(String.class),
-                                        snapshot.child("descripcion").getValue(String.class),snapshot.child("ubicacion").getValue(String.class),
-                                        snapshot.child("imgDestino").getValue(String.class),snapshot.child("Rating").getValue(String.class),
-                                        snapshotUser.child("username").getValue(String.class));
-                                viewHolder.lblNombre.setText(destino.getNombre());
-                                viewHolder.lblDescripcion.setText(destino.getDescripcion());
-                                viewHolder.lblUbicacion.setText(destino.getUbicacion());
-                                viewHolder.lblAutor.setText(destino.getIdUser());
-                                viewHolder.lblRating.setText(destino.getRating());
-                                // Limpia la imagen anterior antes de cargar la nueva
-                                Glide.with(context).clear(viewHolder.img);
-                                Glide.with(context)
-                                        .load(destino.getUrlImg())
-                                        .into(viewHolder.img);
-
-                                verificarFav(viewHolder,destino,position);
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-                            Toast.makeText(context, "Error al cargar el autor", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
+                if (snapshot.exists()) {
+                    viewHolder.lblAutor.setText(snapshot.child("username").getValue(String.class));
+                } else {
+                    viewHolder.lblAutor.setText("Autor desconocido");
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(context, "Error al cargar el destino favorito", Toast.LENGTH_SHORT).show();
+                viewHolder.lblAutor.setText("Autor desconocido");
             }
         });
+        verificarFav(viewHolder, destino);
 
 
+
+
+        // Limpia la imagen anterior antes de cargar la nueva
+        Glide.with(context).clear(viewHolder.img);
+        Glide.with(context)
+                .load(destino.getUrlImg())
+                .into(viewHolder.img);
 
 
         return convertView;
     }
-
-    public void verificarFav(FavoritosAdapter.ViewHolder viewHolder, DestinosModel destino, int posicion){
+    public void verificarFav(ViewHolder viewHolder, DestinosModel destino){
         userFavRef.child("Favoritos").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -156,8 +144,7 @@ public class FavoritosAdapter extends BaseAdapter {
                                         @Override
                                         public void onSuccess(Void unused) {
                                             Toast.makeText(context, "Eliminado de favoritos", Toast.LENGTH_SHORT).show();
-                                            dataFavoritos.remove(posicion);
-                                            notifyDataSetChanged();
+                                            verificarFav(viewHolder, destino);
                                         }
                                     }).addOnFailureListener(new OnFailureListener() {
                                         @Override
@@ -165,6 +152,27 @@ public class FavoritosAdapter extends BaseAdapter {
                                             Toast.makeText(context, "Error al eliminar de favoritos", Toast.LENGTH_SHORT).show();
                                         }
                                     });
+                        }
+                    });
+                } else {
+                    viewHolder.btnFav.setText("Agregar a favoritos");
+                    viewHolder.btnFav.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Map<String,Object> favoritos = new HashMap<>();
+                            favoritos.put("idDestino", destino.getIdDestino());
+                            userFavRef.child("Favoritos").push().setValue(favoritos).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+                                    Toast.makeText(context, "El destino se ha agregado a tus favoritos!", Toast.LENGTH_SHORT).show();
+                                    verificarFav(viewHolder, destino);
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(context, "Error al tratar de añadir a favoritos", Toast.LENGTH_SHORT).show();
+                                }
+                            });
                         }
                     });
                 }

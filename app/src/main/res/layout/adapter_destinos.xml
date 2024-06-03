@@ -6,7 +6,27 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/textView20"
+        android:id="@+id/textView10RaDes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="168dp"
+        android:layout_marginTop="16dp"
+        android:text="Rating:"
+        app:layout_constraintStart_toEndOf="@+id/lblUsernameDestinoPop"
+        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+
+    <TextView
+        android:id="@+id/lblRatingDes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.088"
+        app:layout_constraintStart_toEndOf="@+id/textView10RaDes"
+        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+
+    <TextView
+        android:id="@+id/textView40"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -17,68 +37,68 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/lblNombreDestinoFav"
+        android:id="@+id/lblNombreDestinoPop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.045"
-        app:layout_constraintStart_toEndOf="@+id/textView20"
+        app:layout_constraintStart_toEndOf="@+id/textView40"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView12Fav"
+        android:id="@+id/textView12Pop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginTop="24dp"
         android:text="Descripcion del destino:"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView20" />
+        app:layout_constraintTop_toBottomOf="@+id/textView40" />
 
     <TextView
-        android:id="@+id/lblDescripcionDestinoFav"
+        android:id="@+id/lblDescripcionDestinoPop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView12Fav" />
+        app:layout_constraintTop_toBottomOf="@+id/textView12Pop" />
 
     <TextView
-        android:id="@+id/textView14Fav"
+        android:id="@+id/textView14Pop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginTop="16dp"
         android:text="Ubicacion:"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lblDescripcionDestinoFav" />
+        app:layout_constraintTop_toBottomOf="@+id/lblDescripcionDestinoPop" />
 
     <TextView
-        android:id="@+id/lblUbicacionDestinoFav"
+        android:id="@+id/lblUbicacionDestinoPop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.061"
-        app:layout_constraintStart_toEndOf="@+id/textView14Fav"
-        app:layout_constraintTop_toBottomOf="@+id/lblDescripcionDestinoFav" />
+        app:layout_constraintStart_toEndOf="@+id/textView14Pop"
+        app:layout_constraintTop_toBottomOf="@+id/lblDescripcionDestinoPop" />
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/imageView4"
         android:layout_width="210dp"
         android:layout_height="190dp"
         android:layout_marginTop="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView16Fav"
+        app:layout_constraintTop_toBottomOf="@+id/textView16Pop"
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
-        android:id="@+id/textView16Fav"
+        android:id="@+id/textView16Pop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -86,45 +106,45 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.031"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lblUbicacionDestinoFav" />
+        app:layout_constraintTop_toBottomOf="@+id/lblUbicacionDestinoPop" />
 
     <TextView
-        android:id="@+id/textView17Fav"
+        android:id="@+id/textView17Pop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Publicado por:"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
 
     <TextView
-        android:id="@+id/lblUsernameDestinoFav"
+        android:id="@+id/lblUsernameDestinoPop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.026"
-        app:layout_constraintStart_toEndOf="@+id/textView17Fav"
-        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+        app:layout_constraintStart_toEndOf="@+id/textView17Pop"
+        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
 
     <Button
-        android:id="@+id/btnComentariosFav"
+        android:id="@+id/btnComentariosPop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
         android:text="Ver comentarios"
-        app:layout_constraintEnd_toStartOf="@+id/btnFav"
+        app:layout_constraintEnd_toStartOf="@+id/btnFavPop"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView17Fav" />
+        app:layout_constraintTop_toBottomOf="@+id/textView17Pop" />
 
     <Button
-        android:id="@+id/btnFav"
+        android:id="@+id/btnFavPop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
         android:layout_marginEnd="4dp"
         android:text="Agregar a favoritos"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lblUsernameDestinoFav" />
+        app:layout_constraintTop_toBottomOf="@+id/lblUsernameDestinoPop" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

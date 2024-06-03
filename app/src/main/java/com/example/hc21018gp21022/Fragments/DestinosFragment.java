@@ -24,6 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -46,7 +47,6 @@ public class DestinosFragment extends Fragment {
     private AppActivity main;
     private DatabaseReference destinosRef,userFavRef;
     private List<DestinosModel> dataDestinos;
-    private List<String> dataFav;
     private DestinosAdapter adapter;
     private ListView ls;
 
@@ -92,7 +92,6 @@ public class DestinosFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_destinos, container, false);
         ls = root.findViewById(R.id.listViewDestinos);
         dataDestinos = new ArrayList<>();
-        dataFav = new ArrayList<>();
         destinosRef = FirebaseDatabase.getInstance().getReference("Destinos");
         userFavRef = FirebaseDatabase.getInstance().getReference("Users").child(idUser).child("Favoritos");
         ObtenerDestinos();
@@ -123,6 +122,7 @@ public class DestinosFragment extends Fragment {
                                 destino.child("idUser").getValue(String.class));
                         dataDestinos.add(destinoData);
                     }
+                    Collections.reverse(dataDestinos);
                     adapter = new DestinosAdapter(dataDestinos,main,getContext(),idUser);
                     ls.setAdapter(adapter);
                 }

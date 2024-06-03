@@ -1,7 +1,6 @@
 package com.example.hc21018gp21022.Adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,6 @@ import androidx.annotation.NonNull;
 import com.bumptech.glide.Glide;
 import com.example.hc21018gp21022.AppActivity;
 import com.example.hc21018gp21022.Models.DestinosModel;
-import com.example.hc21018gp21022.Models.FavoritosModel;
 import com.example.hc21018gp21022.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -26,7 +24,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
+import org.w3c.dom.Text;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -68,13 +67,14 @@ public class DestinosAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.adapter_destinos, parent, false);
             viewHolder = new ViewHolder();
-            viewHolder.lblNombre = convertView.findViewById(R.id.lblNombreDestinoFav);
-            viewHolder.lblDescripcion = convertView.findViewById(R.id.lblDescripcionDestinoFav);
-            viewHolder.lblUbicacion = convertView.findViewById(R.id.lblUbicacionDestinoFav);
-            viewHolder.lblAutor = convertView.findViewById(R.id.lblUsernameDestinoFav);
-            viewHolder.btnVerComentarios = convertView.findViewById(R.id.btnComentariosFav);
-            viewHolder.btnAgregarFav = convertView.findViewById(R.id.btnFav);
-            viewHolder.img = convertView.findViewById(R.id.imageView3);
+            viewHolder.lblNombre = convertView.findViewById(R.id.lblNombreDestinoPop);
+            viewHolder.lblDescripcion = convertView.findViewById(R.id.lblDescripcionDestinoPop);
+            viewHolder.lblUbicacion = convertView.findViewById(R.id.lblUbicacionDestinoPop);
+            viewHolder.lblAutor = convertView.findViewById(R.id.lblUsernameDestinoPop);
+            viewHolder.lblRating = convertView.findViewById(R.id.lblRatingDes);
+            viewHolder.btnVerComentarios = convertView.findViewById(R.id.btnComentariosPop);
+            viewHolder.btnAgregarFav = convertView.findViewById(R.id.btnFavPop);
+            viewHolder.img = convertView.findViewById(R.id.imageView4);
 
             convertView.setTag(viewHolder);
         } else {
@@ -85,6 +85,7 @@ public class DestinosAdapter extends BaseAdapter {
         viewHolder.lblNombre.setText(destino.getNombre());
         viewHolder.lblDescripcion.setText(destino.getDescripcion());
         viewHolder.lblUbicacion.setText(destino.getUbicacion());
+        viewHolder.lblRating.setText(destino.getRating());
 
         userRef = FirebaseDatabase.getInstance().getReference("Users").child(destino.getIdUser());
         userFavRef = FirebaseDatabase.getInstance().getReference("Users").child(idUser);
@@ -190,6 +191,7 @@ public class DestinosAdapter extends BaseAdapter {
         TextView lblDescripcion;
         TextView lblUbicacion;
         TextView lblAutor;
+        TextView lblRating;
         Button btnVerComentarios;
         Button btnAgregarFav;
         ImageView img;

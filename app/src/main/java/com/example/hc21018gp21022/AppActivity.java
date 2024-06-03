@@ -25,7 +25,7 @@ public class AppActivity extends AppCompatActivity {
         setContentView(R.layout.activity_app);
         String iduser = getIntent().getStringExtra("idUser");
         Fragment usuario = new UsuarioFragment(iduser);
-        Fragment populares = new PopularesFragment(iduser);
+        Fragment populares = new PopularesFragment(iduser,this);
         Fragment destinos = new DestinosFragment(iduser,this);
         Fragment favoritos = new FavoritosFragment(iduser, this);
 
