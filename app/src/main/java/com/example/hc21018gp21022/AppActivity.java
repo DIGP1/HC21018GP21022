@@ -27,7 +27,7 @@ public class AppActivity extends AppCompatActivity {
         Fragment usuario = new UsuarioFragment(iduser);
         Fragment populares = new PopularesFragment(iduser);
         Fragment destinos = new DestinosFragment(iduser,this);
-        Fragment favoritos = new FavoritosFragment(iduser);
+        Fragment favoritos = new FavoritosFragment(iduser, this);
 
 
         BottomNavigationView navigationView = findViewById(R.id.bottomNavigationView);

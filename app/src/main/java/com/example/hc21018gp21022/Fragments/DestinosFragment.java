@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import com.example.hc21018gp21022.Adapters.DestinosAdapter;
 import com.example.hc21018gp21022.AppActivity;
 import com.example.hc21018gp21022.Models.DestinosModel;
+import com.example.hc21018gp21022.Models.FavoritosModel;
 import com.example.hc21018gp21022.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -43,8 +44,9 @@ public class DestinosFragment extends Fragment {
     private String idUser;
     private Fragment agregarFragment;
     private AppActivity main;
-    private DatabaseReference destinosRef;
+    private DatabaseReference destinosRef,userFavRef;
     private List<DestinosModel> dataDestinos;
+    private List<String> dataFav;
     private DestinosAdapter adapter;
     private ListView ls;
 
@@ -90,8 +92,9 @@ public class DestinosFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_destinos, container, false);
         ls = root.findViewById(R.id.listViewDestinos);
         dataDestinos = new ArrayList<>();
+        dataFav = new ArrayList<>();
         destinosRef = FirebaseDatabase.getInstance().getReference("Destinos");
-
+        userFavRef = FirebaseDatabase.getInstance().getReference("Users").child(idUser).child("Favoritos");
         ObtenerDestinos();
         Button btnAgregar = root.findViewById(R.id.btnAgregarDestino);
 
@@ -120,7 +123,7 @@ public class DestinosFragment extends Fragment {
                                 destino.child("idUser").getValue(String.class));
                         dataDestinos.add(destinoData);
                     }
-                    adapter = new DestinosAdapter(dataDestinos,main,getContext());
+                    adapter = new DestinosAdapter(dataDestinos,main,getContext(),idUser);
                     ls.setAdapter(adapter);
                 }
             }

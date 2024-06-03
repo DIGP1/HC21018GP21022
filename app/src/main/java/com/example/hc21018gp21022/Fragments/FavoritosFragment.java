@@ -2,13 +2,27 @@ package com.example.hc21018gp21022.Fragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
+import com.example.hc21018gp21022.Adapters.DestinosAdapter;
+import com.example.hc21018gp21022.Adapters.FavoritosAdapter;
+import com.example.hc21018gp21022.AppActivity;
 import com.example.hc21018gp21022.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,12 +40,18 @@ public class FavoritosFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     private String idUser;
+    private AppActivity main;
+    private DatabaseReference favReference;
+    private List<String> dataDesFav;
+    private FavoritosAdapter adapter;
+    private ListView ls;
 
     public FavoritosFragment() {
         // Required empty public constructor
     }
-    public FavoritosFragment(String idUser){
+    public FavoritosFragment(String idUser, AppActivity main){
         this.idUser = idUser;
+        this.main = main;
     }
 
     /**
@@ -65,6 +85,34 @@ public class FavoritosFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_favoritos, container, false);
+        View root = inflater.inflate(R.layout.fragment_favoritos, container, false);
+        ls = root.findViewById(R.id.listViewFavoritos);
+        dataDesFav = new ArrayList<>();
+        favReference = FirebaseDatabase.getInstance().getReference("Users").child(idUser).child("Favoritos");
+        favReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    dataDesFav.clear();
+                    for (DataSnapshot dataFav : snapshot.getChildren()) {
+                        String idDestino = dataFav.child("idDestino").getValue(String.class);
+                        if (idDestino != null) {
+                            dataDesFav.add(idDestino);
+                        }
+                    }
+                    adapter = new FavoritosAdapter(dataDesFav, main, getContext(), idUser);
+                    ls.setAdapter(adapter);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("Firebase", "Error al obtener datos", error.toException());
+            }
+        });
+
+
+        return root;
     }
+
 }
