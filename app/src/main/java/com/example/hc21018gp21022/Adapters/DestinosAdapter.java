@@ -1,8 +1,6 @@
 package com.example.hc21018gp21022.Adapters;
 
 import android.content.Context;
-import android.net.Uri;
-import android.text.GetChars;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,49 +53,64 @@ public class DestinosAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        convertView = LayoutInflater.from(context).inflate(R.layout.adapter_destinos,null);
-        TextView lblNombre,lblDescripcion,lblUbicacion,lblAutor;
-        Button btnVerComentarios, btnAgregarFav;
-        ImageView img;
+        ViewHolder viewHolder;
+
+        if (convertView == null) {
+            convertView = LayoutInflater.from(context).inflate(R.layout.adapter_destinos, parent, false);
+            viewHolder = new ViewHolder();
+            viewHolder.lblNombre = convertView.findViewById(R.id.lblNombreDestino);
+            viewHolder.lblDescripcion = convertView.findViewById(R.id.lblDescripcionDestino);
+            viewHolder.lblUbicacion = convertView.findViewById(R.id.lblUbicacionDestino);
+            viewHolder.lblAutor = convertView.findViewById(R.id.lblUsernameDestino);
+            viewHolder.btnVerComentarios = convertView.findViewById(R.id.btnComentarios);
+            viewHolder.btnAgregarFav = convertView.findViewById(R.id.btnAgregarFav);
+            viewHolder.img = convertView.findViewById(R.id.imageView2);
+
+            convertView.setTag(viewHolder);
+        } else {
+            viewHolder = (ViewHolder) convertView.getTag();
+        }
+
         DestinosModel destino = dataDestinos.get(position);
 
+        viewHolder.lblNombre.setText(destino.getNombre());
+        viewHolder.lblDescripcion.setText(destino.getDescripcion());
+        viewHolder.lblUbicacion.setText(destino.getUbicacion());
 
-        lblNombre = convertView.findViewById(R.id.lblNombreDestino);
-        lblDescripcion = convertView.findViewById(R.id.lblDescripcionDestino);
-        lblUbicacion = convertView.findViewById(R.id.lblUbicacionDestino);
-        lblAutor = convertView.findViewById(R.id.lblUsernameDestino);
-
-        btnVerComentarios = convertView.findViewById(R.id.btnComentarios);
-        btnAgregarFav = convertView.findViewById(R.id.btnAgregarFav);
-
-        img = convertView.findViewById(R.id.imageView2);
-
-        lblNombre.setText(destino.getNombre());
-        lblDescripcion.setText(destino.getDescripcion());
-        lblUbicacion.setText(destino.getUbicacion());
-
-        Glide.with(context)
-                .load(destino.getUrlImg())
-                .into(img);
-
-        img.setImageURI(Uri.parse(destino.getUrlImg()));
         userRef = FirebaseDatabase.getInstance().getReference("Users").child(destino.getIdUser());
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
-                    lblAutor.setText(snapshot.child("username").getValue(String.class));
+                if (snapshot.exists()) {
+                    viewHolder.lblAutor.setText(snapshot.child("username").getValue(String.class));
+                } else {
+                    viewHolder.lblAutor.setText("Autor desconocido");
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                lblAutor.setText("Autor desconocido");
+                viewHolder.lblAutor.setText("Autor desconocido");
             }
         });
 
-
+        // Limpia la imagen anterior antes de cargar la nueva
+        Glide.with(context).clear(viewHolder.img);
+        Glide.with(context)
+                .load(destino.getUrlImg())
+                .into(viewHolder.img);
 
         return convertView;
     }
+
+    static class ViewHolder {
+        TextView lblNombre;
+        TextView lblDescripcion;
+        TextView lblUbicacion;
+        TextView lblAutor;
+        Button btnVerComentarios;
+        Button btnAgregarFav;
+        ImageView img;
+    }
+
 }
