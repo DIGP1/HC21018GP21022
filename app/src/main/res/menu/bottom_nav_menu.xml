@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <item
-        android:id="@+id/popularesOpcion"
-        android:icon="@drawable/populares"
-        android:title="Populares" />
-
     <item
         android:id="@+id/destinosOpcion"
         android:icon="@drawable/destinos"
         android:title="Destinos" />
+    <item
+        android:id="@+id/popularesOpcion"
+        android:icon="@drawable/populares"
+        android:title="Populares" />
 
     <item
         android:id="@+id/favoritosOpcion"

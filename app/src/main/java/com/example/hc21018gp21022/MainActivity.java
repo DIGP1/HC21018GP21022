@@ -38,6 +38,9 @@ public class MainActivity extends AppCompatActivity {
                                 for(DataSnapshot userData : snapshot.getChildren()){
                                     if(userData.child("password").getValue(String.class).equals(txtPass.getText().toString())){
                                         Toast.makeText(MainActivity.this, "Inicio de sesion exitoso. Bienvenido "+userData.child("username").getValue(String.class), Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(MainActivity.this, AppActivity.class);
+                                        intent.putExtra("idUser", userData.getKey());
+                                        startActivity(intent);
                                     }else{
                                         Toast.makeText(MainActivity.this, "Datos incorrectos", Toast.LENGTH_SHORT).show();
                                     }
