@@ -10,7 +10,6 @@ import android.widget.ListView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.example.hc21018gp21022.Adapters.DestinosAdapter;
 import com.example.hc21018gp21022.Adapters.PopularesAdapter;
 import com.example.hc21018gp21022.AppActivity;
 import com.example.hc21018gp21022.Models.DestinosModel;
@@ -25,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -103,13 +103,15 @@ public class PopularesFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     for (DataSnapshot destino : snapshot.getChildren()) {
+                        Map<String, Object> commentsMap = (Map<String, Object>) destino.child("Comments").getValue();
                         DestinosModel destinoData = new DestinosModel(destino.getKey(),
                                 destino.child("nombre").getValue(String.class),
                                 destino.child("descripcion").getValue(String.class),
                                 destino.child("ubicacion").getValue(String.class),
                                 destino.child("imgDestino").getValue(String.class),
                                 destino.child("Rating").getValue(String.class),
-                                destino.child("idUser").getValue(String.class));
+                                destino.child("idUser").getValue(String.class),
+                                commentsMap);
                         dataPopulares.add(destinoData);
                     }
                     Collections.sort(dataPopulares, new Comparator<DestinosModel>() {

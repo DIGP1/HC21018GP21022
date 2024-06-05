@@ -25,6 +25,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
+import java.util.Map;
 
 public class FavoritosAdapter extends BaseAdapter {
 
@@ -88,10 +89,15 @@ public class FavoritosAdapter extends BaseAdapter {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshotUser) {
                             if(snapshotUser.exists()){
-                                DestinosModel destino = new DestinosModel(snapshot.getKey(),snapshot.child("nombre").getValue(String.class),
-                                        snapshot.child("descripcion").getValue(String.class),snapshot.child("ubicacion").getValue(String.class),
-                                        snapshot.child("imgDestino").getValue(String.class),snapshot.child("Rating").getValue(String.class),
-                                        snapshotUser.child("username").getValue(String.class));
+                                Map<String, Object> commentsMap = (Map<String, Object>) snapshot.child("Comments").getValue();
+                                DestinosModel destino = new DestinosModel(snapshot.getKey(),
+                                        snapshot.child("nombre").getValue(String.class),
+                                        snapshot.child("descripcion").getValue(String.class),
+                                        snapshot.child("ubicacion").getValue(String.class),
+                                        snapshot.child("imgDestino").getValue(String.class),
+                                        snapshot.child("Rating").getValue(String.class),
+                                        snapshotUser.child("username").getValue(String.class),
+                                        commentsMap);
                                 viewHolder.lblNombre.setText(destino.getNombre());
                                 viewHolder.lblDescripcion.setText(destino.getDescripcion());
                                 viewHolder.lblUbicacion.setText(destino.getUbicacion());

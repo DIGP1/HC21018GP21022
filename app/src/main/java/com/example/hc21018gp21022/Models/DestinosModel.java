@@ -1,5 +1,7 @@
 package com.example.hc21018gp21022.Models;
 
+import java.util.Map;
+
 public class DestinosModel {
     private String idDestino;
     private String nombre;
@@ -8,8 +10,9 @@ public class DestinosModel {
     private String urlImg;
     private String Rating;
     private String idUser;
+    private Map<String, Object> comments;
 
-    public DestinosModel(String idDestino, String nombre, String descripcion, String ubicacion, String urlImg, String rating, String idUser) {
+    public DestinosModel(String idDestino, String nombre, String descripcion, String ubicacion, String urlImg, String rating, String idUser,Map<String, Object> comments) {
         this.idDestino = idDestino;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -17,7 +20,15 @@ public class DestinosModel {
         this.urlImg = urlImg;
         this.Rating = rating;
         this.idUser = idUser;
+        this.comments = comments;
+    }
 
+    public Map<String, Object> getComments() {
+        return comments;
+    }
+
+    public void setComments(Map<String, Object> comments) {
+        this.comments = comments;
     }
 
     public String getIdUser() {

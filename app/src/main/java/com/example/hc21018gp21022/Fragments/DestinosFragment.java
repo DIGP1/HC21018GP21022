@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -15,7 +14,6 @@ import androidx.fragment.app.Fragment;
 import com.example.hc21018gp21022.Adapters.DestinosAdapter;
 import com.example.hc21018gp21022.AppActivity;
 import com.example.hc21018gp21022.Models.DestinosModel;
-import com.example.hc21018gp21022.Models.FavoritosModel;
 import com.example.hc21018gp21022.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -26,6 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -101,7 +100,10 @@ public class DestinosFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 agregarFragment = new AgregarDestinoFragment(idUser, main);
-                main.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, agregarFragment ).commit();
+                main.hideBottomNavigationView();
+                main.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, agregarFragment)
+                        .addToBackStack(null) // Agrega la transacción a la pila de retroceso
+                        .commit();
             }
         });
         return root;
@@ -113,13 +115,15 @@ public class DestinosFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     for (DataSnapshot destino : snapshot.getChildren()) {
+                        Map<String, Object> commentsMap = (Map<String, Object>) destino.child("Comments").getValue();
                         DestinosModel destinoData = new DestinosModel(destino.getKey(),
                                 destino.child("nombre").getValue(String.class),
                                 destino.child("descripcion").getValue(String.class),
                                 destino.child("ubicacion").getValue(String.class),
                                 destino.child("imgDestino").getValue(String.class),
                                 destino.child("Rating").getValue(String.class),
-                                destino.child("idUser").getValue(String.class));
+                                destino.child("idUser").getValue(String.class),
+                                commentsMap);
                         dataDestinos.add(destinoData);
                     }
                     Collections.reverse(dataDestinos);

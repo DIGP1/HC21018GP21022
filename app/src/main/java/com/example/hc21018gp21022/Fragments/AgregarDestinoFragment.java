@@ -5,25 +5,23 @@ import static android.app.Activity.RESULT_OK;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import com.example.hc21018gp21022.AppActivity;
-import com.example.hc21018gp21022.MainActivity;
 import com.example.hc21018gp21022.R;
-import com.example.hc21018gp21022.RegisterActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
@@ -114,7 +112,15 @@ public class AgregarDestinoFragment extends Fragment {
                 AbrirGaleria(v);
             }
         });
-
+        ImageButton btnCancelar = root.findViewById(R.id.btnCancelar);
+        btnCancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Volver al fragmento anterior sin guardar
+                main.showBottomNavigationView();
+                getActivity().getSupportFragmentManager().popBackStack();
+            }
+        });
         return root;
     }
     public void AbrirGaleria(View v){
@@ -155,12 +161,13 @@ public class AgregarDestinoFragment extends Fragment {
                                         dataDestino.put("imgDestino", uri.toString());
                                         dataDestino.put("Rating", txtRating.getText().toString());
                                         dataDestino.put("idUser", idUser);
+
                                         reference.push().setValue(dataDestino).addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override
                                             public void onSuccess(Void unused) {
                                                 Toast.makeText(getContext(), "Destino publicado exitosamente!!", Toast.LENGTH_SHORT).show();
-                                                fragment = new DestinosFragment(idUser,main);
-                                                main.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, fragment).commit();
+                                                main.showBottomNavigationView();
+                                                getActivity().getSupportFragmentManager().popBackStack();
                                             }
                                         }).addOnFailureListener(new OnFailureListener() {
                                             @Override
@@ -182,5 +189,11 @@ public class AgregarDestinoFragment extends Fragment {
             });
 
         }
+    }
+
+    public void handleOnBackPressed() {
+        // Volver al fragmento anterior sin guardar
+        ((AppActivity) getActivity()).showBottomNavigationView();
+        getActivity().getSupportFragmentManager().popBackStack();
     }
 }

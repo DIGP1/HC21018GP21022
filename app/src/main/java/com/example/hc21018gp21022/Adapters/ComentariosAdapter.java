@@ -14,7 +14,6 @@ import androidx.annotation.NonNull;
 
 import com.bumptech.glide.Glide;
 import com.example.hc21018gp21022.AppActivity;
-import com.example.hc21018gp21022.Fragments.ComentariosFragment;
 import com.example.hc21018gp21022.Models.DestinosModel;
 import com.example.hc21018gp21022.R;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -25,34 +24,25 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-public class DestinosAdapter extends BaseAdapter {
-
-    private List<DestinosModel> dataDestinos;
+public class ComentariosAdapter extends BaseAdapter {
+    private ArrayList<HashMap<String, String>> commentsList;
+    private DestinosModel destino;
     private AppActivity main;
     private Context context;
     private DatabaseReference userRef,userFavRef;
     private String idUser;
-    private ComentariosFragment comentariosFragment;
-
-    public DestinosAdapter(List<DestinosModel> dataDestinos, AppActivity main, Context context, String idUser) {
-        this.dataDestinos = dataDestinos;
-        this.main = main;
-        this.context = context;
-        this.idUser = idUser;
-    }
-
     @Override
     public int getCount() {
-        return dataDestinos.size();
+        return commentsList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return dataDestinos.get(position);
+        return commentsList.get(position);
     }
 
     @Override
@@ -62,11 +52,11 @@ public class DestinosAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder;
+        DestinosAdapter.ViewHolder viewHolder;
 
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.adapter_destinos, parent, false);
-            viewHolder = new ViewHolder();
+            convertView = LayoutInflater.from(context).inflate(R.layout.fragment_comentarios, parent, false);
+            viewHolder = new DestinosAdapter.ViewHolder();
             viewHolder.lblNombre = convertView.findViewById(R.id.lblNombreDestinoPop);
             viewHolder.lblDescripcion = convertView.findViewById(R.id.lblDescripcionDestinoPop);
             viewHolder.lblUbicacion = convertView.findViewById(R.id.lblUbicacionDestinoPop);
@@ -78,10 +68,9 @@ public class DestinosAdapter extends BaseAdapter {
 
             convertView.setTag(viewHolder);
         } else {
-            viewHolder = (ViewHolder) convertView.getTag();
+            viewHolder = (DestinosAdapter.ViewHolder) convertView.getTag();
         }
 
-        DestinosModel destino = dataDestinos.get(position);
         viewHolder.lblNombre.setText(destino.getNombre());
         viewHolder.lblDescripcion.setText(destino.getDescripcion());
         viewHolder.lblUbicacion.setText(destino.getUbicacion());
@@ -109,12 +98,7 @@ public class DestinosAdapter extends BaseAdapter {
         viewHolder.btnVerComentarios.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                destino.setIdUser(String.valueOf(viewHolder.lblAutor.getText()));
-                comentariosFragment = new ComentariosFragment(destino, idUser);
-                main.hideBottomNavigationView();
-                main.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, comentariosFragment)
-                        .addToBackStack(null) // Agrega la transacción a la pila de retroceso
-                        .commit();
+
             }
         });
 
@@ -123,6 +107,12 @@ public class DestinosAdapter extends BaseAdapter {
         Glide.with(context)
                 .load(destino.getUrlImg())
                 .into(viewHolder.img);
+
+        commentsList = new ArrayList<>();
+
+        // Agregar algunos comentarios de ejemplo
+        addComment("user1", "This is the first comment.");
+        addComment("user2", "This is the second comment.");
 
         return convertView;
     }
@@ -194,7 +184,15 @@ public class DestinosAdapter extends BaseAdapter {
             }
         });
     }
+    private void addComment(String idUser, String comment) {
+        // Crear un nuevo HashMap para almacenar el comentario
+        HashMap<String, String> commentData = new HashMap<>();
+        commentData.put("idUser", idUser);
+        commentData.put("comment", comment);
 
+        // Agregar el HashMap a la lista
+        commentsList.add(commentData);
+    }
     static class ViewHolder {
         TextView lblNombre;
         TextView lblDescripcion;
@@ -205,5 +203,4 @@ public class DestinosAdapter extends BaseAdapter {
         Button btnAgregarFav;
         ImageView img;
     }
-
 }
