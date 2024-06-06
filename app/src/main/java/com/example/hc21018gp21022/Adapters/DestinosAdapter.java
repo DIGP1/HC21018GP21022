@@ -34,9 +34,10 @@ public class DestinosAdapter extends BaseAdapter {
     private List<DestinosModel> dataDestinos;
     private AppActivity main;
     private Context context;
-    private DatabaseReference userRef,userFavRef;
+    private DatabaseReference userRef,userFavRef,commentRef;
     private String idUser;
     private ComentariosFragment comentariosFragment;
+    private double mediaRating;
 
     public DestinosAdapter(List<DestinosModel> dataDestinos, AppActivity main, Context context, String idUser) {
         this.dataDestinos = dataDestinos;
@@ -82,10 +83,35 @@ public class DestinosAdapter extends BaseAdapter {
         }
 
         DestinosModel destino = dataDestinos.get(position);
-        viewHolder.lblNombre.setText(destino.getNombre());
-        viewHolder.lblDescripcion.setText(destino.getDescripcion());
-        viewHolder.lblUbicacion.setText(destino.getUbicacion());
-        viewHolder.lblRating.setText(destino.getRating());
+
+        commentRef = FirebaseDatabase.getInstance().getReference("Destinos").child(destino.getIdDestino());
+
+        commentRef.child("Comments").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                mediaRating = 0;
+                int cantComments = 0;
+                if (snapshot.exists()){
+                    for (DataSnapshot comment : snapshot.getChildren()){
+                        float ratingComment = Float.parseFloat(comment.child("rating").getValue(String.class));
+                        mediaRating += ratingComment;
+                        cantComments ++;
+                    }
+                }
+                mediaRating += Double.parseDouble(destino.getRating());
+                mediaRating = mediaRating/(cantComments+1);
+                mediaRating = round(mediaRating, 1);
+                viewHolder.lblNombre.setText(destino.getNombre());
+                viewHolder.lblDescripcion.setText(destino.getDescripcion());
+                viewHolder.lblUbicacion.setText(destino.getUbicacion());
+                viewHolder.lblRating.setText(String.valueOf(mediaRating));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         userRef = FirebaseDatabase.getInstance().getReference("Users").child(destino.getIdUser());
         userFavRef = FirebaseDatabase.getInstance().getReference("Users").child(idUser);
@@ -204,6 +230,14 @@ public class DestinosAdapter extends BaseAdapter {
         Button btnVerComentarios;
         Button btnAgregarFav;
         ImageView img;
+    }
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        long factor = (long) Math.pow(10, places);
+        value = value * factor;
+        long tmp = Math.round(value);
+        return (double) tmp / factor;
     }
 
 }

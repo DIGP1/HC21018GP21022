@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 
 import com.bumptech.glide.Glide;
 import com.example.hc21018gp21022.AppActivity;
+import com.example.hc21018gp21022.Fragments.ComentariosFragment;
 import com.example.hc21018gp21022.Models.DestinosModel;
 import com.example.hc21018gp21022.R;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -24,6 +25,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,8 +36,9 @@ public class PopularesAdapter extends BaseAdapter {
     private List<DestinosModel>dataPopulares;
     private Context context;
     private AppActivity main;
-    private DatabaseReference userFavRef,autorRef;
+    private DatabaseReference userFavRef,autorRef,commentRef;
     private String idUser;
+    private ComentariosFragment comentariosFragment;
 
     public PopularesAdapter(List<DestinosModel> dataPopulares, Context context, AppActivity main, String idUser) {
         this.dataPopulares = dataPopulares;
@@ -77,8 +81,8 @@ public class PopularesAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-
         DestinosModel destino = dataPopulares.get(position);
+
         userFavRef = FirebaseDatabase.getInstance().getReference("Users").child(idUser);
         autorRef = FirebaseDatabase.getInstance().getReference("Users").child(destino.getIdUser());
 
@@ -100,6 +104,17 @@ public class PopularesAdapter extends BaseAdapter {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 viewHolder.lblAutor.setText("Autor desconocido");
+            }
+        });
+        viewHolder.btnVerComentarios.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                destino.setIdUser(String.valueOf(viewHolder.lblAutor.getText()));
+                comentariosFragment = new ComentariosFragment(destino, idUser);
+                main.hideBottomNavigationView();
+                main.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, comentariosFragment)
+                        .addToBackStack(null) // Agrega la transacción a la pila de retroceso
+                        .commit();
             }
         });
         verificarFav(viewHolder, destino);

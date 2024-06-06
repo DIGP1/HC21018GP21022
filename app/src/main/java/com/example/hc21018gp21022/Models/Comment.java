@@ -3,10 +3,11 @@ package com.example.hc21018gp21022.Models;
 public class Comment {
     private String idUser;
     private String Comment;
-
-    public Comment(String idUser, String comment) {
+    private String Rating;
+    public Comment(String idUser, String comment,String Rating) {
         this.idUser = idUser;
-        Comment = comment;
+        this.Comment = comment;
+        this.Rating = Rating;
     }
 
     public String getIdUser() {
@@ -23,5 +24,13 @@ public class Comment {
 
     public void setComment(String comment) {
         Comment = comment;
+    }
+
+    public String getRating() {
+        return Rating;
+    }
+
+    public void setRating(String rating) {
+        Rating = rating;
     }
 }
