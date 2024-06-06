@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -76,7 +77,7 @@ public class DestinosAdapter extends BaseAdapter {
             viewHolder.btnVerComentarios = convertView.findViewById(R.id.btnComentariosPop);
             viewHolder.btnAgregarFav = convertView.findViewById(R.id.btnFavPop);
             viewHolder.img = convertView.findViewById(R.id.imageView4);
-
+            viewHolder.ratingBar = convertView.findViewById(R.id.ratingBar);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -105,6 +106,7 @@ public class DestinosAdapter extends BaseAdapter {
                 viewHolder.lblDescripcion.setText(destino.getDescripcion());
                 viewHolder.lblUbicacion.setText(destino.getUbicacion());
                 viewHolder.lblRating.setText(String.valueOf(mediaRating));
+                viewHolder.ratingBar.setRating(Float.parseFloat(String.valueOf(mediaRating)));
             }
 
             @Override
@@ -230,6 +232,7 @@ public class DestinosAdapter extends BaseAdapter {
         Button btnVerComentarios;
         Button btnAgregarFav;
         ImageView img;
+        RatingBar ratingBar;
     }
     public static double round(double value, int places) {
         if (places < 0) throw new IllegalArgumentException();

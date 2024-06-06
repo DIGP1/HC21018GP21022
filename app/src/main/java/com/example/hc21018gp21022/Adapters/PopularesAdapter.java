@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,8 +26,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -77,6 +76,7 @@ public class PopularesAdapter extends BaseAdapter {
             viewHolder.btnVerComentarios = convertView.findViewById(R.id.btnComentariosPop);
             viewHolder.btnFav = convertView.findViewById(R.id.btnFavPop);
             viewHolder.img = convertView.findViewById(R.id.imageView4);
+            viewHolder.ratingBar = convertView.findViewById(R.id.ratingBar);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -90,7 +90,7 @@ public class PopularesAdapter extends BaseAdapter {
         viewHolder.lblDescripcion.setText(destino.getDescripcion());
         viewHolder.lblUbicacion.setText(destino.getUbicacion());
         viewHolder.lblRating.setText(destino.getRating());
-
+        viewHolder.ratingBar.setRating(Float.parseFloat(destino.getRating()));
         autorRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -208,5 +208,6 @@ public class PopularesAdapter extends BaseAdapter {
         Button btnVerComentarios;
         Button btnFav;
         ImageView img;
+        RatingBar ratingBar;
     }
 }

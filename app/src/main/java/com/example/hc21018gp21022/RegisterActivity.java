@@ -1,17 +1,17 @@
 package com.example.hc21018gp21022;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.service.autofill.RegexValidator;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.Firebase;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -20,7 +20,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -35,7 +34,13 @@ public class RegisterActivity extends AppCompatActivity {
         txtEmail = findViewById(R.id.txtEmailRegister);
         txtPass = findViewById(R.id.txtPassRegister1);
         txtPass2 = findViewById(R.id.txtPassRegister2);
-
+        ImageButton volver = findViewById(R.id.imageButton);
+        volver.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
     public void RegisterUser(View view){
         if(!txtUser.getText().toString().equals("") && !txtEmail.getText().toString().equals("")
@@ -86,6 +91,5 @@ public class RegisterActivity extends AppCompatActivity {
         }else{
             Toast.makeText(this, "No dejes campos vacios", Toast.LENGTH_SHORT).show();
         }
-
     }
 }

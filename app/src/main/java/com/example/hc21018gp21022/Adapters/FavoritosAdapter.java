@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,6 +15,7 @@ import androidx.annotation.NonNull;
 
 import com.bumptech.glide.Glide;
 import com.example.hc21018gp21022.AppActivity;
+import com.example.hc21018gp21022.Fragments.ComentariosFragment;
 import com.example.hc21018gp21022.Models.DestinosModel;
 import com.example.hc21018gp21022.R;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -35,6 +37,7 @@ public class FavoritosAdapter extends BaseAdapter {
     private DatabaseReference destinosRef, userRef, userFavRef,commentRef;
     private String idUser;
     private double mediaRating;
+    private ComentariosFragment comentariosFragment;
     public FavoritosAdapter(List<String> dataFavoritos, AppActivity main, Context context, String idUser) {
         this.dataFavoritos = dataFavoritos;
         this.main = main;
@@ -72,6 +75,7 @@ public class FavoritosAdapter extends BaseAdapter {
             viewHolder.btnVerComentarios = convertView.findViewById(R.id.btnComentariosPop);
             viewHolder.btnFav = convertView.findViewById(R.id.btnFavPop);
             viewHolder.img = convertView.findViewById(R.id.imageView4);
+            viewHolder.ratingBar = convertView.findViewById(R.id.ratingBar);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -127,6 +131,8 @@ public class FavoritosAdapter extends BaseAdapter {
                                 viewHolder.lblDescripcion.setText(destino.getDescripcion());
                                 viewHolder.lblUbicacion.setText(destino.getUbicacion());
                                 viewHolder.lblAutor.setText(destino.getIdUser());
+                                viewHolder.ratingBar.setRating(Float.parseFloat(String.valueOf(mediaRating)));
+
                                 // Limpia la imagen anterior antes de cargar la nueva
                                 Glide.with(context).clear(viewHolder.img);
                                 Glide.with(context)
@@ -134,6 +140,17 @@ public class FavoritosAdapter extends BaseAdapter {
                                         .into(viewHolder.img);
 
                                 verificarFav(viewHolder,destino,position);
+                                viewHolder.btnVerComentarios.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        destino.setIdUser(String.valueOf(viewHolder.lblAutor.getText()));
+                                        comentariosFragment = new ComentariosFragment(destino, idUser);
+                                        main.hideBottomNavigationView();
+                                        main.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, comentariosFragment)
+                                                .addToBackStack(null) // Agrega la transacción a la pila de retroceso
+                                                .commit();
+                                    }
+                                });
                             }
                         }
 
@@ -215,6 +232,7 @@ public class FavoritosAdapter extends BaseAdapter {
         Button btnVerComentarios;
         Button btnFav;
         ImageView img;
+        RatingBar ratingBar;
     }
     public static double round(double value, int places) {
         if (places < 0) throw new IllegalArgumentException();

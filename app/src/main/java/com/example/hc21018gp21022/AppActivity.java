@@ -54,9 +54,6 @@ public class AppActivity extends AppCompatActivity {
                     case R.id.popularesOpcion:
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, populares ).commit();
                         break;
-                    case R.id.usuarioOpcion:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, usuario ).commit();
-                        break;
                 }
                 return true;
             }
@@ -71,7 +68,8 @@ public class AppActivity extends AppCompatActivity {
                 ((AgregarDestinoFragment) currentFragment).handleOnBackPressed();
             }else if(currentFragment instanceof ComentariosFragment) {
                 ((ComentariosFragment) currentFragment).handleOnBackPressed();
-            }else {
+            }
+            else {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setMessage("¿Desea salir de la aplicacion?")
                         .setPositiveButton("Si", new DialogInterface.OnClickListener() {

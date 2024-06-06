@@ -14,8 +14,4 @@
         android:icon="@drawable/favoritos"
         android:title="Favoritos" />
 
-    <item
-        android:id="@+id/usuarioOpcion"
-        android:icon="@drawable/usuario"
-        android:title="Mi perfil" />
 </menu>

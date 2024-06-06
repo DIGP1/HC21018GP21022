@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.MultiAutoCompleteTextView;
+import android.widget.RatingBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -50,13 +51,14 @@ public class AgregarDestinoFragment extends Fragment {
     private String mParam2;
     private String idUser;
     private AppActivity main;
-    private EditText txtNombre, txtUbicacion, txtRating;
+    private EditText txtNombre, txtUbicacion;
+    private String txtRating;
     private MultiAutoCompleteTextView txtDescripcion;
     private ImageView imgVista;
     private Button btnPublicar, btnAgregarImagen;
     private DatabaseReference reference;
     private Fragment fragment;
-
+    private RatingBar ratingBar;
     public AgregarDestinoFragment() {
         // Required empty public constructor
     }
@@ -100,7 +102,7 @@ public class AgregarDestinoFragment extends Fragment {
         txtNombre = root.findViewById(R.id.txtNombreDestino);
         txtDescripcion = root.findViewById(R.id.txtDescripcionDestino);
         txtUbicacion = root.findViewById(R.id.txtUbicacionDestino);
-        txtRating = root.findViewById(R.id.txtRating);
+        ratingBar = root.findViewById(R.id.txtRating);
 
         imgVista = root.findViewById(R.id.imageView);
 
@@ -136,8 +138,9 @@ public class AgregarDestinoFragment extends Fragment {
             btnPublicar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    txtRating = String.valueOf(ratingBar.getRating());
                     if(!"".equals(txtNombre.getText().toString()) && !"".equals(txtDescripcion.getText().toString()) &&
-                            !"".equals(txtUbicacion.getText().toString()) && !"".equals(txtRating.getText().toString())){
+                            !"".equals(txtUbicacion.getText().toString()) && !"".equals(txtRating)){
                         FirebaseStorage storage =  FirebaseStorage.getInstance();
                         StorageReference storageRef = storage.getReference(data.getData().getLastPathSegment());
                         UploadTask uploadTask = storageRef.putFile(data.getData());
@@ -159,7 +162,7 @@ public class AgregarDestinoFragment extends Fragment {
                                         dataDestino.put("descripcion", txtDescripcion.getText().toString());
                                         dataDestino.put("ubicacion", txtUbicacion.getText().toString());
                                         dataDestino.put("imgDestino", uri.toString());
-                                        dataDestino.put("Rating", txtRating.getText().toString());
+                                        dataDestino.put("Rating", txtRating);
                                         dataDestino.put("idUser", idUser);
 
                                         reference.push().setValue(dataDestino).addOnSuccessListener(new OnSuccessListener<Void>() {
