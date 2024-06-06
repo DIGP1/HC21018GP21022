@@ -54,7 +54,7 @@ public class ComentariosFragment extends Fragment {
     private String mParam2;
     public DestinosModel destino;
     private String idUser;
-    private DatabaseReference reference;
+    private DatabaseReference reference,RatingOriginalRef;
     private List<Comment> dataComments;
     private ComentariosAdapter adapter;
     private ListView ls;
@@ -186,11 +186,28 @@ public class ComentariosFragment extends Fragment {
                 Collections.reverse(dataComments);
                 adapter = new ComentariosAdapter(dataComments, getContext());
                 ls.setAdapter(adapter);
-                mediaRating += Double.parseDouble(destino.getRating());
-                mediaRating = mediaRating/(dataComments.size()+1);
-                mediaRating = round(mediaRating, 1);
-                lblRating.setText(String.valueOf(mediaRating));
-                adapter.notifyDataSetChanged();
+                RatingOriginalRef = FirebaseDatabase.getInstance().getReference("Destinos").child(destino.getIdDestino());
+                RatingOriginalRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()){
+                            String rating = snapshot.child("Rating").getValue(String.class);
+                            Log.d("Rating Original->", rating);
+                            mediaRating += Double.parseDouble(rating);
+                            mediaRating = mediaRating/(dataComments.size()+1);
+                            mediaRating = round(mediaRating, 1);
+                            lblRating.setText(String.valueOf(mediaRating));
+                            adapter.notifyDataSetChanged();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+                //mediaRating += Double.parseDouble(destino.getRating());
+
             }
 
             @Override
