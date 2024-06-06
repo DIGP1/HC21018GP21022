@@ -8,191 +8,234 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <TextView
-            android:id="@+id/textView10RaDes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="168dp"
-            android:layout_marginTop="16dp"
-            android:text="Rating:"
-            app:layout_constraintStart_toEndOf="@+id/lblUsernameDestinoPop"
-            app:layout_constraintTop_toBottomOf="@+id/imageView4" />
-
-        <TextView
-            android:id="@+id/lblRatingDes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.088"
-            app:layout_constraintStart_toEndOf="@+id/textView10RaDes"
-            app:layout_constraintTop_toBottomOf="@+id/imageView4" />
-
-        <TextView
-            android:id="@+id/textView40"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Nombre del destino:"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.016"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/lblNombreDestinoPop"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.045"
-            app:layout_constraintStart_toEndOf="@+id/textView40"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/textView12Pop"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="24dp"
-            android:text="Descripcion del destino:"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView40" />
-
-        <TextView
-            android:id="@+id/lblDescripcionDestinoPop"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView12Pop" />
-
-        <TextView
-            android:id="@+id/textView14Pop"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="16dp"
-            android:text="Ubicacion:"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lblDescripcionDestinoPop" />
-
-        <TextView
-            android:id="@+id/lblUbicacionDestinoPop"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.061"
-            app:layout_constraintStart_toEndOf="@+id/textView14Pop"
-            app:layout_constraintTop_toBottomOf="@+id/lblDescripcionDestinoPop" />
-
-        <ImageView
-            android:id="@+id/imageView4"
-            android:layout_width="210dp"
-            android:layout_height="190dp"
-            android:layout_marginTop="12dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView16Pop"
-            tools:srcCompat="@tools:sample/avatars" />
-
-        <TextView
-            android:id="@+id/textView16Pop"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Imagen del lugar"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.031"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lblUbicacionDestinoPop" />
-
-        <TextView
-            android:id="@+id/textView17Pop"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Publicado por:"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView4" />
-
-        <TextView
-            android:id="@+id/lblUsernameDestinoPop"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.026"
-            app:layout_constraintStart_toEndOf="@+id/textView17Pop"
-            app:layout_constraintTop_toBottomOf="@+id/imageView4" />
-
-        <Button
-            android:id="@+id/btnFavPop"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Agregar a favoritos"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toTopOf="@+id/listviewComentarios"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView10RaDes"
-            app:layout_constraintVertical_bias="0.619" />
-
-        <ListView
-            android:id="@+id/listviewComentarios"
-            android:layout_width="412dp"
-            android:layout_height="129dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnFavPop" />
+        android:layout_height="match_parent"
+        android:background="?attr/colorPrimary">
 
         <ImageButton
-            android:id="@+id/btnComentarioPop"
-            android:layout_width="61dp"
-            android:layout_height="50dp"
+            android:id="@+id/btnCancelar"
+            android:layout_width="41dp"
+            android:layout_height="37dp"
+            android:layout_marginTop="70dp"
             android:background="#00FFFFFF"
-            android:src="@drawable/enviar"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/listviewComentarios"
-            app:layout_constraintVertical_bias="0.0" />
-
-        <EditText
-            android:id="@+id/edtComentario"
-            android:layout_width="230dp"
-            android:layout_height="43dp"
-            android:ems="10"
-            android:hint="Ingrese un comentario"
-            android:inputType="text"
-            android:paddingLeft="13dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/btnComentarioPop"
+            android:src="@drawable/baseline_arrow_back_24"
+            app:layout_constraintEnd_toStartOf="@+id/textView5"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/listviewComentarios"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
-            android:id="@+id/txtRatingComment"
-            android:layout_width="99dp"
-            android:layout_height="42dp"
-            android:ems="10"
-            android:inputType="text"
-            android:hint="Rating"
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="311dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="70dp"
+            android:layout_marginEnd="48dp"
+            android:text="Seccion comentarios"
+            android:textAlignment="center"
+            android:textColor="?attr/colorOnPrimary"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="550dp"
+            android:background="@drawable/cuadro"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/btnComentarioPop"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/edtComentario"
-            app:layout_constraintTop_toBottomOf="@+id/listviewComentarios"
-            app:layout_constraintVertical_bias="0.00" />
+            app:layout_constraintStart_toStartOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="411dp"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/colorOnPrimary"
+                    android:orientation="vertical"
+                    android:padding="10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/lblNombreDestinoPop"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:text="Destino"
+                        android:textAlignment="textStart"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textView17Pop"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Autor:"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/lblUsernameDestinoPop"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="10dp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/lblDescripcionDestinoPop"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:text="Descripcion"
+                        android:textStyle="italic" />
+
+                    <ImageView
+                        android:id="@+id/imageView4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        tools:srcCompat="@tools:sample/avatars" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textView14Pop"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Ubicacion:"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/lblUbicacionDestinoPop"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="10dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textView10RaDes"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="3dp"
+                            android:text="Rating:"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/lblRatingDes"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="10dp"
+                            android:paddingTop="3dp" />
+
+                        <RatingBar
+                            android:id="@+id/ratingBar"
+                            android:layout_width="251dp"
+                            android:layout_height="42dp"
+                            android:isIndicator="true"
+                            android:numStars="5"
+                            android:paddingLeft="10dp"
+                            android:scaleX="0.5"
+                            android:scaleY="0.5"
+                            android:transformPivotX="1dp"
+                            android:transformPivotY="1dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="1dp"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/btnFavPop"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:text="Agregar a favoritos" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <ListView
+                    android:id="@+id/listviewComentarios"
+                    android:layout_width="wrap_content"
+                    android:layout_height="510dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/btnFavPop" />
+
+
+
+                <RatingBar
+                    android:id="@+id/txtRatingComment"
+                    android:layout_width="251dp"
+                    android:layout_height="42dp"
+                    android:numStars="5"
+                    android:paddingLeft="10dp"
+                    android:scaleX="0.5"
+                    android:scaleY="0.5"
+                    android:transformPivotX="1dp"
+                    android:transformPivotY="1dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/btnPublicar"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView"
+                    app:layout_constraintVertical_bias="0.11" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/edtComentario"
+                        android:layout_width="344dp"
+                        android:layout_height="43dp"
+                        android:ems="10"
+
+                        android:hint="Ingrese un comentario"
+                        android:inputType="text"
+                        android:paddingLeft="13dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/btnComentarioPop"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/listviewComentarios"
+                        app:layout_constraintVertical_bias="0.0" />
+
+                    <ImageButton
+                        android:id="@+id/btnComentarioPop"
+                        android:layout_width="61dp"
+                        android:layout_height="50dp"
+                        android:background="#00FFFFFF"
+                        android:src="@drawable/enviar"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/listviewComentarios"
+                        app:layout_constraintVertical_bias="0.0" />
+
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

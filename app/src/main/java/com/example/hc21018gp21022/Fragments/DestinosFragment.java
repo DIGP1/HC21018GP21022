@@ -101,10 +101,12 @@ public class DestinosFragment extends Fragment {
             public void onClick(View v) {
                 agregarFragment = new AgregarDestinoFragment(idUser, main);
                 main.hideBottomNavigationView();
-                main.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, agregarFragment)
-                        .addToBackStack(null) // Agrega la transacción a la pila de retroceso
+                main.getSupportFragmentManager().beginTransaction()
+                        .add(android.R.id.content, agregarFragment)  // usa android.R.id.content para añadir el fragmento sobre todo el contenido
+                        .addToBackStack("AgregarDestinoFragment")
                         .commit();
             }
+
         });
         return root;
     }

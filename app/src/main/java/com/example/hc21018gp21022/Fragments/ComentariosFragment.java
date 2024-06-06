@@ -1,7 +1,5 @@
 package com.example.hc21018gp21022.Fragments;
 
-import static android.content.ContentValues.TAG;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +10,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,7 +19,6 @@ import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.example.hc21018gp21022.Adapters.ComentariosAdapter;
-import com.example.hc21018gp21022.Adapters.DestinosAdapter;
 import com.example.hc21018gp21022.AppActivity;
 import com.example.hc21018gp21022.Models.Comment;
 import com.example.hc21018gp21022.Models.DestinosModel;
@@ -60,13 +58,14 @@ public class ComentariosFragment extends Fragment {
     private ListView ls;
     private double mediaRating = 0.00f;
     private TextView lblRating;
-
+    private AppActivity main;
 
     private DatabaseReference userRef,userFavRef;
 
-    public ComentariosFragment(DestinosModel destino, String idUser) {
+    public ComentariosFragment(DestinosModel destino, String idUser, AppActivity main) {
         this.destino = destino;
         this.idUser = idUser;
+        this.main = main;
     }
 
     public ComentariosFragment() {
@@ -111,7 +110,7 @@ public class ComentariosFragment extends Fragment {
         TextView lblUbicacion = v.findViewById(R.id.lblUbicacionDestinoPop);
         TextView lblAutor = v.findViewById(R.id.lblUsernameDestinoPop);
         lblRating = v.findViewById(R.id.lblRatingDes);
-        EditText txtRating = v.findViewById(R.id.txtRatingComment);
+        RatingBar txtRating = v.findViewById(R.id.txtRatingComment);
         ImageButton btnComentario = v.findViewById(R.id.btnComentarioPop);
         Button btnAgregarFav = v.findViewById(R.id.btnFavPop);
         ImageView img = v.findViewById(R.id.imageView4);
@@ -137,16 +136,17 @@ public class ComentariosFragment extends Fragment {
         btnComentario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!"".equals(comentario.getText().toString()) && !"".equals(txtRating.getText().toString())){
+
+                if (!"".equals(comentario.getText().toString()) && txtRating.getRating()>0){
                     String commentId = reference.push().getKey();
-                    Comment comment = new Comment(idUser,comentario.getText().toString(),txtRating.getText().toString());
+                    Comment comment = new Comment(idUser,comentario.getText().toString(),String.valueOf(txtRating.getRating()));
 
                     reference.child("Comments").push().setValue(comment).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
                             Toast.makeText(getContext(), "Comentario publicado exitosamente!!", Toast.LENGTH_SHORT).show();
                             comentario.setText("");
-                            txtRating.setText("");
+                            txtRating.setRating(0);
                             CargarComentarios(destino);
                         }
                     }).addOnFailureListener(new OnFailureListener() {
@@ -160,6 +160,15 @@ public class ComentariosFragment extends Fragment {
                 }
             }
 
+        });
+        ImageButton btnCancelar = v.findViewById(R.id.btnCancelar);
+        btnCancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Volver al fragmento anterior sin guardar
+                main.showBottomNavigationView();
+                getActivity().getSupportFragmentManager().popBackStack();
+            }
         });
         return v;
     }

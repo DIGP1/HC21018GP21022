@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.example.hc21018gp21022.Fragments.AgregarDestinoFragment;
 import com.example.hc21018gp21022.Fragments.ComentariosFragment;
@@ -22,6 +23,8 @@ import com.example.hc21018gp21022.Fragments.PopularesFragment;
 import com.example.hc21018gp21022.Fragments.UsuarioFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+
+import java.util.List;
 
 public class AppActivity extends AppCompatActivity {
     public BottomNavigationView navigationView;
@@ -59,10 +62,12 @@ public class AppActivity extends AppCompatActivity {
             }
         });
     }
+
+    // Método para obtener el fragmento actualmente visible
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
+            Fragment currentFragment = getCurrentFragment();
 
             if (currentFragment instanceof AgregarDestinoFragment) {
                 ((AgregarDestinoFragment) currentFragment).handleOnBackPressed();
@@ -92,11 +97,27 @@ public class AppActivity extends AppCompatActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
+    private Fragment getCurrentFragment() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        List<Fragment> fragments = fragmentManager.getFragments();
+        if (fragments != null) {
+            for (Fragment fragment : fragments) {
+                if (fragment != null && fragment.isVisible()) {
+                    return fragment;
+                }
+            }
+        }
+        return null;
+    }
+
     public void showBottomNavigationView() {
         navigationView.setVisibility(View.VISIBLE);
     }
 
     public void hideBottomNavigationView() {
         navigationView.setVisibility(View.GONE);
+    }
+    public interface OnBackPressedListener {
+        void handleOnBackPressed();
     }
 }

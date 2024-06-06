@@ -144,10 +144,11 @@ public class FavoritosAdapter extends BaseAdapter {
                                     @Override
                                     public void onClick(View v) {
                                         destino.setIdUser(String.valueOf(viewHolder.lblAutor.getText()));
-                                        comentariosFragment = new ComentariosFragment(destino, idUser);
+                                        comentariosFragment = new ComentariosFragment(destino, idUser,main);
                                         main.hideBottomNavigationView();
-                                        main.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, comentariosFragment)
-                                                .addToBackStack(null) // Agrega la transacción a la pila de retroceso
+                                        main.getSupportFragmentManager().beginTransaction()
+                                                .add(android.R.id.content, comentariosFragment)  // usa android.R.id.content para añadir el fragmento sobre todo el contenido
+                                                .addToBackStack(null)
                                                 .commit();
                                     }
                                 });

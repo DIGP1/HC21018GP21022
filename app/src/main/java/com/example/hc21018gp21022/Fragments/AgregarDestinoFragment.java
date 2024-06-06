@@ -59,6 +59,7 @@ public class AgregarDestinoFragment extends Fragment {
     private DatabaseReference reference;
     private Fragment fragment;
     private RatingBar ratingBar;
+    private boolean imgSubida = false;
     public AgregarDestinoFragment() {
         // Required empty public constructor
     }
@@ -138,9 +139,8 @@ public class AgregarDestinoFragment extends Fragment {
             btnPublicar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    txtRating = String.valueOf(ratingBar.getRating());
                     if(!"".equals(txtNombre.getText().toString()) && !"".equals(txtDescripcion.getText().toString()) &&
-                            !"".equals(txtUbicacion.getText().toString()) && !"".equals(txtRating)){
+                            !"".equals(txtUbicacion.getText().toString()) && ratingBar.getRating()>0){
                         FirebaseStorage storage =  FirebaseStorage.getInstance();
                         StorageReference storageRef = storage.getReference(data.getData().getLastPathSegment());
                         UploadTask uploadTask = storageRef.putFile(data.getData());
@@ -153,7 +153,7 @@ public class AgregarDestinoFragment extends Fragment {
                         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                             @Override
                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
+                                imgSubida = true;
                                 storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                     @Override
                                     public void onSuccess(Uri uri) {
@@ -162,6 +162,7 @@ public class AgregarDestinoFragment extends Fragment {
                                         dataDestino.put("descripcion", txtDescripcion.getText().toString());
                                         dataDestino.put("ubicacion", txtUbicacion.getText().toString());
                                         dataDestino.put("imgDestino", uri.toString());
+                                        txtRating = String.valueOf(ratingBar.getRating());
                                         dataDestino.put("Rating", txtRating);
                                         dataDestino.put("idUser", idUser);
 
@@ -187,6 +188,14 @@ public class AgregarDestinoFragment extends Fragment {
                                 });
                             }
                         });
+                    }else {
+                        if (ratingBar.getRating()==0){
+                            Toast.makeText(getContext(), "Para publicar un destino debes darle un rating!", Toast.LENGTH_SHORT).show();
+                        } else if (!imgSubida) {
+                            Toast.makeText(getContext(), "Por favor suba una imagen!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getContext(), "Por favor complete todos los campos", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
             });
@@ -199,4 +208,5 @@ public class AgregarDestinoFragment extends Fragment {
         ((AppActivity) getActivity()).showBottomNavigationView();
         getActivity().getSupportFragmentManager().popBackStack();
     }
+
 }

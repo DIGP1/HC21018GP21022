@@ -42,15 +42,15 @@
                 android:id="@+id/lblUsernameDestinoPop"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
-                android:textStyle="italic" />
+                android:paddingLeft="10dp" />
         </LinearLayout>
         <TextView
             android:id="@+id/lblDescripcionDestinoPop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Descripcion"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginBottom="10dp"
+            android:textStyle="italic" />
 
         <ImageView
             android:id="@+id/imageView4"
