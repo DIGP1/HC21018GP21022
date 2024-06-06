@@ -32,9 +32,9 @@ public class FavoritosAdapter extends BaseAdapter {
     private List<String>dataFavoritos;
     private AppActivity main;
     private Context context;
-    private DatabaseReference destinosRef, userRef, userFavRef;
+    private DatabaseReference destinosRef, userRef, userFavRef,commentRef;
     private String idUser;
-
+    private double mediaRating;
     public FavoritosAdapter(List<String> dataFavoritos, AppActivity main, Context context, String idUser) {
         this.dataFavoritos = dataFavoritos;
         this.main = main;
@@ -98,11 +98,35 @@ public class FavoritosAdapter extends BaseAdapter {
                                         snapshot.child("Rating").getValue(String.class),
                                         snapshotUser.child("username").getValue(String.class),
                                         commentsMap);
+                                commentRef = FirebaseDatabase.getInstance().getReference("Destinos").child(destino.getIdDestino());
+
+                                commentRef.child("Comments").addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        mediaRating = 0;
+                                        int cantComments = 0;
+                                        if (snapshot.exists()){
+                                            for (DataSnapshot comment : snapshot.getChildren()){
+                                                float ratingComment = Float.parseFloat(comment.child("rating").getValue(String.class));
+                                                mediaRating += ratingComment;
+                                                cantComments ++;
+                                            }
+                                        }
+                                        mediaRating += Double.parseDouble(destino.getRating());
+                                        mediaRating = mediaRating/(cantComments+1);
+                                        mediaRating = round(mediaRating, 1);
+                                        viewHolder.lblRating.setText(String.valueOf(mediaRating));
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
                                 viewHolder.lblNombre.setText(destino.getNombre());
                                 viewHolder.lblDescripcion.setText(destino.getDescripcion());
                                 viewHolder.lblUbicacion.setText(destino.getUbicacion());
                                 viewHolder.lblAutor.setText(destino.getIdUser());
-                                viewHolder.lblRating.setText(destino.getRating());
                                 // Limpia la imagen anterior antes de cargar la nueva
                                 Glide.with(context).clear(viewHolder.img);
                                 Glide.with(context)
@@ -191,5 +215,13 @@ public class FavoritosAdapter extends BaseAdapter {
         Button btnVerComentarios;
         Button btnFav;
         ImageView img;
+    }
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        long factor = (long) Math.pow(10, places);
+        value = value * factor;
+        long tmp = Math.round(value);
+        return (double) tmp / factor;
     }
 }

@@ -25,6 +25,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -45,8 +46,10 @@ public class PopularesFragment extends Fragment {
     private AppActivity main;
     private ListView ls;
     private List<DestinosModel> dataPopulares;
-    private DatabaseReference popularesRef;
+    private DatabaseReference popularesRef, commentRef;
     private PopularesAdapter adapter;
+    private double mediaRating = 0;
+
 
     public PopularesFragment() {
         // Required empty public constructor
@@ -102,6 +105,8 @@ public class PopularesFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
+                    final CountDownLatch latch = new CountDownLatch((int) snapshot.getChildrenCount());
+
                     for (DataSnapshot destino : snapshot.getChildren()) {
                         Map<String, Object> commentsMap = (Map<String, Object>) destino.child("Comments").getValue();
                         DestinosModel destinoData = new DestinosModel(destino.getKey(),
@@ -112,26 +117,78 @@ public class PopularesFragment extends Fragment {
                                 destino.child("Rating").getValue(String.class),
                                 destino.child("idUser").getValue(String.class),
                                 commentsMap);
-                        dataPopulares.add(destinoData);
+
+                        DatabaseReference commentRef = FirebaseDatabase.getInstance().getReference("Destinos").child(destinoData.getIdDestino()).child("Comments");
+                        commentRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                double mediaRating = 0;
+                                int cantComments = 0;
+                                if (snapshot.exists()) {
+                                    for (DataSnapshot comment : snapshot.getChildren()) {
+                                        float ratingComment = Float.parseFloat(comment.child("rating").getValue(String.class));
+                                        mediaRating += ratingComment;
+                                        cantComments++;
+                                    }
+                                }
+                                mediaRating += Double.parseDouble(destinoData.getRating());
+                                mediaRating = mediaRating / (cantComments + 1);
+                                mediaRating = round(mediaRating, 1);
+                                destinoData.setRating(String.valueOf(mediaRating));
+
+                                dataPopulares.add(destinoData);
+                                latch.countDown();
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                                latch.countDown();
+                            }
+                        });
                     }
-                    Collections.sort(dataPopulares, new Comparator<DestinosModel>() {
+
+                    new Thread(new Runnable() {
                         @Override
-                        public int compare(DestinosModel d1, DestinosModel d2) {
-                            double rating1 = Double.parseDouble(d1.getRating());
-                            double rating2 = Double.parseDouble(d2.getRating());
-                            return Double.compare(rating2, rating1);
+                        public void run() {
+                            try {
+                                latch.await();
+                                Collections.sort(dataPopulares, new Comparator<DestinosModel>() {
+                                    @Override
+                                    public int compare(DestinosModel d1, DestinosModel d2) {
+                                        double rating1 = Double.parseDouble(d1.getRating());
+                                        double rating2 = Double.parseDouble(d2.getRating());
+                                        return Double.compare(rating2, rating1);
+                                    }
+                                });
+
+                                main.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        adapter = new PopularesAdapter(dataPopulares, getContext(), main, idUser);
+                                        ls.setAdapter(adapter);
+                                    }
+                                });
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
                         }
-                    });
-                    adapter = new PopularesAdapter(dataPopulares,getContext(),main,idUser);
-                    ls.setAdapter(adapter);
+                    }).start();
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                // Manejar error
                 Log.e("Firebase", "Error al obtener datos", error.toException());
             }
         });
+    }
+
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        long factor = (long) Math.pow(10, places);
+        value = value * factor;
+        long tmp = Math.round(value);
+        return (double) tmp / factor;
     }
 }

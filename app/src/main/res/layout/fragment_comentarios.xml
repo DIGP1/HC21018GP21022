@@ -155,21 +155,19 @@
 
         <ImageButton
             android:id="@+id/btnComentarioPop"
-            android:layout_width="72dp"
-            android:layout_height="72dp"
-            android:layout_marginTop="300dp"
-            android:layout_marginEnd="16dp"
+            android:layout_width="61dp"
+            android:layout_height="50dp"
             android:background="#00FFFFFF"
             android:src="@drawable/enviar"
-            app:layout_constraintBottom_toTopOf="@+id/lblRatingDes"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.428" />
+            app:layout_constraintTop_toBottomOf="@+id/listviewComentarios"
+            app:layout_constraintVertical_bias="0.0" />
 
         <EditText
             android:id="@+id/edtComentario"
-            android:layout_width="333dp"
-            android:layout_height="47dp"
+            android:layout_width="230dp"
+            android:layout_height="43dp"
             android:ems="10"
             android:hint="Ingrese un comentario"
             android:inputType="text"
@@ -180,6 +178,20 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/listviewComentarios"
             app:layout_constraintVertical_bias="0.0" />
+
+        <EditText
+            android:id="@+id/txtRatingComment"
+            android:layout_width="99dp"
+            android:layout_height="42dp"
+            android:ems="10"
+            android:inputType="text"
+            android:hint="Rating"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btnComentarioPop"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/edtComentario"
+            app:layout_constraintTop_toBottomOf="@+id/listviewComentarios"
+            app:layout_constraintVertical_bias="0.00" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
